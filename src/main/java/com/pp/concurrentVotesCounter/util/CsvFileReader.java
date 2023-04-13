@@ -1,4 +1,4 @@
-package com.pp.concurrentVotesCounter.util;
+package main.java.com.pp.concurrentVotesCounter.util;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -36,7 +36,7 @@ public class CsvFileReader implements AutoCloseable {
                 return fileLine;
             } else if (c == '"') {// QUOTE
                 quoteEncountered = !quoteEncountered;
-            } else if (c == ',') {// COMMA
+            } else if (c == ';') {// SEMICOLON
                 if (!quoteEncountered) {
                     fileLine.add(sb.toString());
                     sb.setLength(0);
@@ -50,33 +50,6 @@ public class CsvFileReader implements AutoCloseable {
 
         return null;
     }
-
-//    public String getCsvCell(final int index) throws IOException {
-//        sb.setLength(0);
-//
-//        int commaOccurrences = 0;
-//        boolean capture = (index == 0);
-//
-//        while ((i = fr.read()) != -1) {
-//            char c = (char) i;
-//
-//            if (c == ',' && !quoteEncountered) {
-//                if (commaOccurrences == index) {
-//                    capture = false;
-//                }
-//            } else if (c == 10) {
-//                break;
-//            } else if (c == '"') {
-//                quoteEncountered = !quoteEncountered;
-//            } else {
-//                if (capture) {
-//                    sb.append(c);
-//                }
-//            }
-//        }
-//
-//        return sb.toString();
-//    }
 
     @Override
     public void close() throws Exception {
