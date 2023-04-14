@@ -13,7 +13,7 @@ import java.util.concurrent.CyclicBarrier;
 public class ConcurrentVotesCounterApplication {
 
     // CHOOSE NUMBER OF THREADS
-    private static final int NUM_THREADS = 3;
+    private static final int NUM_THREADS = 8;
 
     // CHANGE PATHS TO SUIT YOUR FILE LOCATIONS
     private static final String VOTES_FILE_PATH = "E:\\Dev\\Java\\Parallel Programming\\concurrent-votes-counter\\src\\main\\resources\\votes_02.10.2022.csv";
@@ -26,7 +26,11 @@ public class ConcurrentVotesCounterApplication {
     private static final Map<Integer, String> parties = new HashMap<>();
 
     private static final Runnable barrierAction = () -> {
-        for (int i = 1; i <= results.keySet().size(); i++) {
+        System.out.println();
+        System.out.println("---02.10.2022 Parliamentary Election Results---");
+        System.out.println();
+
+        for (int i = 1; i <= results.keySet().size() + 1; i++) {
             String message = results.get(i) == null
                     ? "N/A"
                     : results.get(i).toString();
