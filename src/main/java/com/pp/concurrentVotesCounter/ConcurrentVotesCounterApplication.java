@@ -69,8 +69,10 @@ public class ConcurrentVotesCounterApplication {
             while ((line = csvFileReader.getCsvLine()) != null)
                 parties.put(Integer.valueOf(line.get(0)), line.get(1));
 
+        } catch (FileNotFoundException e) {
+            System.out.println("File " + PARTIES_FILE_PATH + " doesn't exist!");
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 }
