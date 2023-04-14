@@ -55,5 +55,4 @@ public class CsvFileReader implements AutoCloseable {
     public void close() throws Exception {
         fr.close();
     }
-
 }
