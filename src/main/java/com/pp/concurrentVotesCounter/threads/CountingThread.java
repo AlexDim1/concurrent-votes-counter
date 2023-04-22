@@ -9,12 +9,22 @@ import java.util.Map;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
+/**
+ * A Thread used for counting election results from a CSV file
+ */
 public class CountingThread extends Thread {
 
     private final CsvFileReader csvFileReader;
     private final CyclicBarrier barrier;
     private final Map<Integer, Integer> results;
 
+    /**
+     *
+     * @param name the name of the thread
+     * @param csvFileReader the {@link CsvFileReader} from which to read data
+     * @param barrier the barrier used for synchronizing the threads
+     * @param results the {@link Map} in which to store the results of the count
+     */
     public CountingThread(String name, CsvFileReader csvFileReader, CyclicBarrier barrier, Map<Integer, Integer> results) {
         super(name);
         this.csvFileReader = csvFileReader;
@@ -22,6 +32,9 @@ public class CountingThread extends Thread {
         this.results = results;
     }
 
+    /**
+     * The main execution logic of the thread
+     */
     @Override
     public void run() {
         long start = new Date().getTime();

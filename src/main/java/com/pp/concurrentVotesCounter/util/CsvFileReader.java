@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Allows for concurrent reading of CSV files (; separated only!) line by line
+ */
 public class CsvFileReader implements AutoCloseable {
 
     private final FileReader fr;
@@ -13,10 +16,22 @@ public class CsvFileReader implements AutoCloseable {
 
     private boolean quoteEncountered = false;
 
+    /**
+     *
+     * @param fileLocation the absolute path of the CSV file to be read
+     * @throws FileNotFoundException if the file doesn't exist in the specified location
+     */
     public CsvFileReader(String fileLocation) throws FileNotFoundException {
         fr = new FileReader(fileLocation);
     }
 
+    /**
+     * Synchronized method for reading a line in a CSV file
+     * Can be called by only one {@link Thread} at a time!
+     *
+     * @return a list containing the values on this line
+     * @throws IOException if an I/O error occurs
+     */
     public synchronized List<String> getCsvLine() throws IOException {
         sb.setLength(0);
         List<String> fileLine = new ArrayList<>();
@@ -30,7 +45,6 @@ public class CsvFileReader implements AutoCloseable {
                 sb.setLength(0);
 
                 if (quoteEncountered) {
-                    //System.out.println("Warning: File inconsistency - a quote not closed till End Of Line reached!");
                     quoteEncountered = false;
                 }
                 return fileLine;
