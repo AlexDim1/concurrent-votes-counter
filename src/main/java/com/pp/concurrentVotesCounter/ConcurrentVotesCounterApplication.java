@@ -21,10 +21,19 @@ public class ConcurrentVotesCounterApplication {
 
     private static CyclicBarrier barrier;
 
+    /**
+     * Stores the number and vote count of the parties
+     */
     private static final Map<Integer, Integer> results = new ConcurrentHashMap<>();
 
+    /**
+     * Stores the number and name of the party on the ballot
+     */
     private static final Map<Integer, String> parties = new HashMap<>();
 
+    /**
+     * Prints the final results when the barrier is tripped
+     */
     private static final Runnable barrierAction = () -> {
         System.out.println();
         System.out.println("---02.10.2022 Parliamentary Election Results---");
@@ -55,6 +64,10 @@ public class ConcurrentVotesCounterApplication {
         }
     }
 
+    /**
+     * Initiates the reading of the file and starts all the {@link CountingThread}s
+     * @param csvFileReader the {@link CsvFileReader} from which to read data
+     */
     private static void processVotesFile(CsvFileReader csvFileReader) {
         for (int i = 1; i <= NUM_THREADS; i++) {
             CountingThread thread = new CountingThread("Counting Thread #" + i, csvFileReader, barrier, results);
@@ -62,6 +75,9 @@ public class ConcurrentVotesCounterApplication {
         }
     }
 
+    /**
+     * Reads and stores the number and party name from a CSV file into a {@link Map}
+     */
     private static void loadParties() {
         try (CsvFileReader csvFileReader = new CsvFileReader(PARTIES_FILE_PATH)) {
             List<String> line;
